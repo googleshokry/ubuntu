@@ -1,431 +1,70 @@
-#Errors
-
-##Can't Install Any Thing
-
-```shell
-
-sudo rm /var/lib/apt/lists/lock
-
-sudo rm /var/cache/apt/archives/lock
-
-sudo rm /var/lib/dpkg/lock
-
-```
-
-
-#INSTALL LAMP
-
-### APACHE2
-
-```shell
-sudo apt-get update
-sudo apt-get install apache2
-```
-
-### mcrypt
-
-```shell
-sudo apt-get -y install gcc make autoconf libc-dev pkg-config
-sudo apt-get -y install libmcrypt-dev
-sudo pecl install mcrypt-1.0.1
-sudo bash -c "echo extension=/usr/lib/php/20170718/mcrypt.so > /etc/php/7.2/cli/conf.d/mcrypt.ini"
-sudo bash -c "echo extension=/usr/lib/php/20170718/mcrypt.so > /etc/php/7.2/apache2/conf.d/mcrypt.ini"
-sudo service apache2 restart
-```
-
-##PHP7.2
-
-```shell
-sudo apt-get install python-software-properties
-sudo add-apt-repository ppa:ondrej/php
-sudo apt-get update
-sudo apt-get install -y php7.2
-sudo apt-cache search php7-*
-sudo apt-get install php7.2-mysql php7.2-curl php7.2-json php7.2-cgi php7.2-xsl php7.2-mbstring
-```
-
-##MYSQL5.7
-
-```shell
-sudo apt update
-sudo apt install mysql-server
-sudo mysql_secure_installation
-sudo mysql
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'; #mysql
-FLUSH PRIVILEGES; #mysql
-CREATE USER 'phpmyadmin'@'localhost' IDENTIFIED BY 'root';
-GRANT ALL PRIVILEGES ON *.* TO 'phpmyadmin'@'localhost' WITH GRANT OPTION;
-SELECT user,authentication_string,plugin,host FROM mysql.user; #mysql
-sudo service mysql restart
-
-sudo cp /usr/share/phpmyadmin/libraries/sql.lib.php /usr/share/phpmyadmin/libraries/sql.lib.php.bak
-sudo gedit /usr/share/phpmyadmin/libraries/sql.lib.php
-exit
-```
-
-
-> Press Ctrl + W And Search For (Count($Analyzed_sql_results['Select_expr'] == 1)
-Replace It With ((Count($Analyzed_sql_results['Select_expr']) == 1)
-
-##ALLOW HTTACCESS
-
-```shell
-sudo a2enmod rewrite
-sudo nano /etc/apache2/apache2.conf
-```
-
-```rst
-<Directory /var/www/>
-    Options Indexes FollowSymLinks
-    AllowOverride All
-    Require all granted
-</Directory>
-```
-
-```shell
-sudo systemctl restart apache2
-
-```
-##PHPMYADMIN
-
-```shell
-sudo apt-get install phpmyadmin
-sudo gedit /etc/apache2/apache2.conf
-```
-> 
-add this to end of the file
-
-> Include /etc/phpmyadmin/apache.conf
-
-> at the end
-
-```shell
-sudo service apache2 restart
-```
-
-##ADD NEW VIRSUAL HOST
-
-###### ##### #### ###  /etc/apache2/sites-available/work.dev.conf contains following lines
-
-```rst
-<VirtualHost *:80>
-
-        ServerName work.com #must .com
-        
-        DocumentRoot /var/www/html/work/public
-        
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    
-        CustomLog ${APACHE_LOG_DIR}/access.log combined
-        
-        
-    <Directory /var/www/html/work/public>
-    
-            AllowOverride All
-            
-            Require all granted
-            
-        </Directory>
-        
-</VirtualHost>
-
-```
-*add to hosts*
-
-```shell
-sudo gedit /etc/hosts
-
-```
-127.0.0.1 work.com #url work.com
-
-enable site
-
-```shell
-sudo a2ensite work.com
-service apache2 reload
-```
-
-##GIT
-
-
-```shell
-sudo apt-get install git
-
-```
-##zip
-
-```shell
-sudo apt-get install zip
-
-```
-##COMPOSER
-
-```shell
-sudo apt install curl
-
-sudo apt install composer
-
-curl -sS https://getcomposer.org/installer | php
-
-sudo mv composer.phar /usr/local/bin/composer
-```
-
-##NODEJS
-
-```shell
-sudo apt-get install python-software-properties
-
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-
-sudo apt-get install nodejs
-```
-
-##MONGODB
-
-```shell
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-
-echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
-
-sudo apt-get update
-
-sudo apt-get install -y mongodb-org
-
-sudo service mongod start
-
-sudo service mongodb start
-
-sudo apt-get install php-dev
-
-sudo pecl install memcache
-
-sudo pecl install mongodb
-
-Add mongodb.so to php.ini
-
-sudo apt-get install php-mongodb
-
-```
-https://nosqlbooster.com/downloads
-
-##REDIS
-
-```shell
-sudo add-apt-repository ppa:chris-lea/redis-server
-
-sudo apt-get update
-
-sudo apt-get install redis-server
-
-sudo service redis-server start
-```
-
-#####   Laravel Redis ==>
- 
-```shell
- composer require predis/predis
-
-``` 
-```rst
-CACHE_DRIVER=redis
-
-SESSION_DRIVER=redis
-
-CACHE_DRIVER=file
-
-SESSION_DRIVER=file
-
-QUEUE_DRIVER=sync
-
-REDIS_HOST=127.0.0.1
-
-REDIS_PASSWORD=null
-
-REDIS_PORT=6379
-```
-
-##REDIS Manager
-
-https://github.com/uglide/RedisDesktopManager/releases
-
-```shell
-sudo apt-get install gdebi
-
-```
-##BOWER
-
-```shell
-sudo npm install bower -g
-
-```
-##WINE
-
-* If your system is 64 bit, enable 32 bit architecture!
-
-```shell
-sudo dpkg --add-architecture i386
-```
-```shell
-wget -nc https://dl.winehq.org/wine-builds/Release.key
-
-sudo apt-key add Release.key
-
-sudo apt-add-repository 'deb http://dl.winehq.org/wine-builds/ubuntu/ xenial main'
-
-sudo apt-get update
-
-sudo apt-get install --install-recommends winehq-devel
-
-winecfg
-```
-
-##RAR
-
-```shell
-sudo apt-get install unrar 
-
-```
-##Angularjs
-
-```shell
-npm config set unsafe-perm true
-
-sudo npm install -g @angular/cli
-
-ng new my-project-name
-```
-
-https://github.com/angular/angular-cli/wiki
-
-##Monitor
-
-## gnome-system-monitor
-
-```shell
-sudo apt-get install gnome-system-monitor
-
-gnome-system-monitor
-```
-
-##Docker
-```shell
-
-sudo apt-get update
-
-sudo apt-get install apt-transport-https ca-certificates  curl  software-properties-common
-
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs)  stable"
-
-sudo apt-get update
-
-sudo apt-get install docker-ce
-
-sudo apt install docker-compose
-
-sudo usermod -aG docker engshokry
-
-sudo chmod -R 777 /var/lib/docker/
-
-sudo mkdir /var/lib/docker/tmp    ==> if not create
-
-sudo systemctl start docker
-
-```
-##SWITCH PHP
-
-```shell
-sudo a2dismod php7.0 && sudo a2enmod php5.6 && sudo service apache2 restart
-
-sudo ln -sfn /usr/bin/php5.6 /etc/alternatives/php
-```
-
-##Gdebi
-
-```shell
-sudo apt install gdebi
-
-```
-##Sendmail
-
-```shell
-sudo apt install sendmail
-```
-
-which sendmail
-
-```shell
-sudo gedit /etc/ssmtp/ssmtp.conf
-
-```
-##Config Sendmail
-
-mailhub=smtp.gmail.com:587 ######YES 465 NO 587
-
-rewriteDomain=gmail.com
-
-AuthUser=sms.shokry.mohamed@gmail.com
-
-AuthPass=password
-
-UseSTARTTLS=YES
-
-######FromLineOverride=YES
-
-######UseTLS=YES # YES 465
-
-##Keyboard
-
-```shell
-sudo apt-get install gnome-tweaks
-
-```
-Then Open Gnome Tweaks (Gnome-Tweaks).
-
-Select Keyboard & Mouse Tab
-
-Click Additional Layout Options Button
-
-Expand Switching To Another Layout
-
-Select Ctrl + Shift Here
-
-See Screenshot Below:
-
-https://i.stack.imgur.com/6eUtV.png
-
-##create Short Icon to Your program
-
-```shell
-Installing gnome-panel
-
- sudo apt-get install --no-install-recommends gnome-panel
-```
-To create launcher
-
-```shell
-sudo gnome-desktop-item-edit /usr/share/applications/ --create-new
-
-```
-This will open up a "Create Launcher" window
-
-```rst
-Type: Application
-
-Name: PhpStorm
-
-Command: /bin/bash path_to/phpstorm.sh
-
-Comment: Any Comment
-```
-
-This will create a launcher file in /usr/share/applications directory. Now double click and open the file.
-
-
-
-
-
-
-
-
+<div class="markdown-body editormd-preview-container" previewcontainer="true" style="padding: 20px;"><h1 id="h1-errors"><a name="Errors" class="reference-link"></a><span class="header-link octicon octicon-link"></span>Errors</h1><h2 id="h2-can-t-install-any-thing"><a name="Can’t Install Any Thing" class="reference-link"></a><span class="header-link octicon octicon-link"></span>Can’t Install Any Thing</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"></code></li><li class="L1"><code class="lang-shell"><span class="pln">sudo rm </span><span class="pun">/</span><span class="kwd">var</span><span class="pun">/</span><span class="pln">lib</span><span class="pun">/</span><span class="pln">apt</span><span class="pun">/</span><span class="pln">lists</span><span class="pun">/</span><span class="kwd">lock</span></code></li><li class="L2"><code class="lang-shell"></code></li><li class="L3"><code class="lang-shell"><span class="pln">sudo rm </span><span class="pun">/</span><span class="kwd">var</span><span class="pun">/</span><span class="pln">cache</span><span class="pun">/</span><span class="pln">apt</span><span class="pun">/</span><span class="pln">archives</span><span class="pun">/</span><span class="kwd">lock</span></code></li><li class="L4"><code class="lang-shell"></code></li><li class="L5"><code class="lang-shell"><span class="pln">sudo rm </span><span class="pun">/</span><span class="kwd">var</span><span class="pun">/</span><span class="pln">lib</span><span class="pun">/</span><span class="pln">dpkg</span><span class="pun">/</span><span class="kwd">lock</span></code></li></ol></pre>
+<h1 id="h1-install-lamp"><a name="INSTALL LAMP" class="reference-link"></a><span class="header-link octicon octicon-link"></span>INSTALL LAMP</h1><h3 id="h3-apache2"><a name="APACHE2" class="reference-link"></a><span class="header-link octicon octicon-link"></span>APACHE2</h3><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> update</span></code></li><li class="L1"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install apache2</span></code></li></ol></pre>
+<h3 id="h3-mcrypt"><a name="mcrypt" class="reference-link"></a><span class="header-link octicon octicon-link"></span>mcrypt</h3><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> </span><span class="pun">-</span><span class="pln">y install gcc make autoconf libc</span><span class="pun">-</span><span class="pln">dev pkg</span><span class="pun">-</span><span class="pln">config</span></code></li><li class="L1"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> </span><span class="pun">-</span><span class="pln">y install libmcrypt</span><span class="pun">-</span><span class="pln">dev</span></code></li><li class="L2"><code class="lang-shell"><span class="pln">sudo pecl install mcrypt</span><span class="pun">-</span><span class="lit">1.0</span><span class="pun">.</span><span class="lit">1</span></code></li><li class="L3"><code class="lang-shell"><span class="pln">sudo bash </span><span class="pun">-</span><span class="pln">c </span><span class="str">"echo extension=/usr/lib/php/20170718/mcrypt.so &gt; /etc/php/7.2/cli/conf.d/mcrypt.ini"</span></code></li><li class="L4"><code class="lang-shell"><span class="pln">sudo bash </span><span class="pun">-</span><span class="pln">c </span><span class="str">"echo extension=/usr/lib/php/20170718/mcrypt.so &gt; /etc/php/7.2/apache2/conf.d/mcrypt.ini"</span></code></li><li class="L5"><code class="lang-shell"><span class="pln">sudo service apache2 restart</span></code></li></ol></pre>
+<h2 id="h2-php7-2"><a name="PHP7.2" class="reference-link"></a><span class="header-link octicon octicon-link"></span>PHP7.2</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install python</span><span class="pun">-</span><span class="pln">software</span><span class="pun">-</span><span class="pln">properties</span></code></li><li class="L1"><code class="lang-shell"><span class="pln">sudo add</span><span class="pun">-</span><span class="pln">apt</span><span class="pun">-</span><span class="pln">repository ppa</span><span class="pun">:</span><span class="pln">ondrej</span><span class="pun">/</span><span class="pln">php</span></code></li><li class="L2"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> update</span></code></li><li class="L3"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install </span><span class="pun">-</span><span class="pln">y php7</span><span class="pun">.</span><span class="lit">2</span></code></li><li class="L4"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="pln">cache search php7</span><span class="pun">-*</span></code></li><li class="L5"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install php7</span><span class="pun">.</span><span class="lit">2</span><span class="pun">-</span><span class="pln">mysql php7</span><span class="pun">.</span><span class="lit">2</span><span class="pun">-</span><span class="pln">curl php7</span><span class="pun">.</span><span class="lit">2</span><span class="pun">-</span><span class="pln">json php7</span><span class="pun">.</span><span class="lit">2</span><span class="pun">-</span><span class="pln">cgi php7</span><span class="pun">.</span><span class="lit">2</span><span class="pun">-</span><span class="pln">xsl php7</span><span class="pun">.</span><span class="lit">2</span><span class="pun">-</span><span class="pln">mbstring</span></code></li></ol></pre>
+<h2 id="h2-mysql5-7"><a name="MYSQL5.7" class="reference-link"></a><span class="header-link octicon octicon-link"></span>MYSQL5.7</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo apt update</span></code></li><li class="L1"><code class="lang-shell"><span class="pln">sudo apt install mysql</span><span class="pun">-</span><span class="pln">server</span></code></li><li class="L2"><code class="lang-shell"><span class="pln">sudo mysql_secure_installation</span></code></li><li class="L3"><code class="lang-shell"><span class="pln">sudo mysql</span></code></li><li class="L4"><code class="lang-shell"><span class="pln">ALTER USER </span><span class="str">'root'</span><span class="pun">@</span><span class="str">'localhost'</span><span class="pln"> IDENTIFIED WITH mysql_native_password BY </span><span class="str">'root'</span><span class="pun">;</span><span class="pln"> </span><span class="com">#mysql</span></code></li><li class="L5"><code class="lang-shell"><span class="pln">FLUSH PRIVILEGES</span><span class="pun">;</span><span class="pln"> </span><span class="com">#mysql</span></code></li><li class="L6"><code class="lang-shell"><span class="pln">CREATE USER </span><span class="str">'phpmyadmin'</span><span class="pun">@</span><span class="str">'localhost'</span><span class="pln"> IDENTIFIED BY </span><span class="str">'root'</span><span class="pun">;</span></code></li><li class="L7"><code class="lang-shell"><span class="pln">GRANT ALL PRIVILEGES ON </span><span class="pun">*.*</span><span class="pln"> TO </span><span class="str">'phpmyadmin'</span><span class="pun">@</span><span class="str">'localhost'</span><span class="pln"> WITH GRANT OPTION</span><span class="pun">;</span></code></li><li class="L8"><code class="lang-shell"><span class="pln">SELECT user</span><span class="pun">,</span><span class="pln">authentication_string</span><span class="pun">,</span><span class="pln">plugin</span><span class="pun">,</span><span class="pln">host FROM mysql</span><span class="pun">.</span><span class="pln">user</span><span class="pun">;</span><span class="pln"> </span><span class="com">#mysql</span></code></li><li class="L9"><code class="lang-shell"><span class="pln">sudo service mysql restart</span></code></li><li class="L0"><code class="lang-shell"></code></li><li class="L1"><code class="lang-shell"><span class="pln">sudo cp </span><span class="pun">/</span><span class="pln">usr</span><span class="pun">/</span><span class="pln">share</span><span class="pun">/</span><span class="pln">phpmyadmin</span><span class="pun">/</span><span class="pln">libraries</span><span class="pun">/</span><span class="pln">sql</span><span class="pun">.</span><span class="pln">lib</span><span class="pun">.</span><span class="pln">php </span><span class="pun">/</span><span class="pln">usr</span><span class="pun">/</span><span class="pln">share</span><span class="pun">/</span><span class="pln">phpmyadmin</span><span class="pun">/</span><span class="pln">libraries</span><span class="pun">/</span><span class="pln">sql</span><span class="pun">.</span><span class="pln">lib</span><span class="pun">.</span><span class="pln">php</span><span class="pun">.</span><span class="pln">bak</span></code></li><li class="L2"><code class="lang-shell"><span class="pln">sudo gedit </span><span class="pun">/</span><span class="pln">usr</span><span class="pun">/</span><span class="pln">share</span><span class="pun">/</span><span class="pln">phpmyadmin</span><span class="pun">/</span><span class="pln">libraries</span><span class="pun">/</span><span class="pln">sql</span><span class="pun">.</span><span class="pln">lib</span><span class="pun">.</span><span class="pln">php</span></code></li><li class="L3"><code class="lang-shell"><span class="kwd">exit</span></code></li></ol></pre>
+<blockquote>
+<p>Press Ctrl + W And Search For (Count($Analyzed_sql_results[‘Select_expr’] == 1)<br>Replace It With ((Count($Analyzed_sql_results[‘Select_expr’]) == 1)</p>
+</blockquote>
+<h2 id="h2-allow-httaccess"><a name="ALLOW HTTACCESS" class="reference-link"></a><span class="header-link octicon octicon-link"></span>ALLOW HTTACCESS</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo a2enmod rewrite</span></code></li><li class="L1"><code class="lang-shell"><span class="pln">sudo nano </span><span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">apache2</span><span class="pun">/</span><span class="pln">apache2</span><span class="pun">.</span><span class="pln">conf</span></code></li></ol></pre>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-rst"><span class="tag">&lt;Directory</span><span class="pln"> </span><span class="pun">/</span><span class="atn">var</span><span class="pun">/</span><span class="atn">www</span><span class="tag">/&gt;</span></code></li><li class="L1"><code class="lang-rst"><span class="pln">    Options Indexes FollowSymLinks</span></code></li><li class="L2"><code class="lang-rst"><span class="pln">    AllowOverride All</span></code></li><li class="L3"><code class="lang-rst"><span class="pln">    Require all granted</span></code></li><li class="L4"><code class="lang-rst"><span class="tag">&lt;/Directory&gt;</span></code></li></ol></pre>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo systemctl restart apache2</span></code></li></ol></pre>
+<h2 id="h2-phpmyadmin"><a name="PHPMYADMIN" class="reference-link"></a><span class="header-link octicon octicon-link"></span>PHPMYADMIN</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install phpmyadmin</span></code></li><li class="L1"><code class="lang-shell"><span class="pln">sudo gedit </span><span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">apache2</span><span class="pun">/</span><span class="pln">apache2</span><span class="pun">.</span><span class="pln">conf</span></code></li></ol></pre>
+<blockquote>
+<p>add this to end of the file</p>
+<p>Include /etc/phpmyadmin/apache.conf</p>
+<p>at the end</p>
+</blockquote>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo service apache2 restart</span></code></li></ol></pre>
+<h2 id="h2-add-new-virsual-host"><a name="ADD NEW VIRSUAL HOST" class="reference-link"></a><span class="header-link octicon octicon-link"></span>ADD NEW VIRSUAL HOST</h2><h6 id="h6--etc-apache2-sites-available-work-dev-conf-contains-following-lines"><a name="##### #### ###  /etc/apache2/sites-available/work.dev.conf contains following lines" class="reference-link"></a><span class="header-link octicon octicon-link"></span>##### #### ###  /etc/apache2/sites-available/work.dev.conf contains following lines</h6><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-rst"><span class="tag">&lt;VirtualHost</span><span class="pln"> *:80</span><span class="tag">&gt;</span></code></li><li class="L1"><code class="lang-rst"></code></li><li class="L2"><code class="lang-rst"><span class="pln">        ServerName work.com #must .com</span></code></li><li class="L3"><code class="lang-rst"></code></li><li class="L4"><code class="lang-rst"><span class="pln">        DocumentRoot /var/www/html/work/public</span></code></li><li class="L5"><code class="lang-rst"></code></li><li class="L6"><code class="lang-rst"><span class="pln">    ErrorLog ${APACHE_LOG_DIR}/error.log</span></code></li><li class="L7"><code class="lang-rst"></code></li><li class="L8"><code class="lang-rst"><span class="pln">        CustomLog ${APACHE_LOG_DIR}/access.log combined</span></code></li><li class="L9"><code class="lang-rst"></code></li><li class="L0"><code class="lang-rst"></code></li><li class="L1"><code class="lang-rst"><span class="pln">    </span><span class="tag">&lt;Directory</span><span class="pln"> </span><span class="pun">/</span><span class="atn">var</span><span class="pun">/</span><span class="atn">www</span><span class="pun">/</span><span class="atn">html</span><span class="pun">/</span><span class="atn">work</span><span class="pun">/</span><span class="atn">public</span><span class="tag">&gt;</span></code></li><li class="L2"><code class="lang-rst"></code></li><li class="L3"><code class="lang-rst"><span class="pln">            AllowOverride All</span></code></li><li class="L4"><code class="lang-rst"></code></li><li class="L5"><code class="lang-rst"><span class="pln">            Require all granted</span></code></li><li class="L6"><code class="lang-rst"></code></li><li class="L7"><code class="lang-rst"><span class="pln">        </span><span class="tag">&lt;/Directory&gt;</span></code></li><li class="L8"><code class="lang-rst"></code></li><li class="L9"><code class="lang-rst"><span class="tag">&lt;/VirtualHost&gt;</span></code></li></ol></pre>
+<p><em>add to hosts</em></p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo gedit </span><span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">hosts</span></code></li></ol></pre>
+<p>127.0.0.1 work.com #url work.com</p>
+<p>enable site</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo a2ensite work</span><span class="pun">.</span><span class="pln">com</span></code></li><li class="L1"><code class="lang-shell"><span class="pln">service apache2 reload</span></code></li></ol></pre>
+<h2 id="h2-git"><a name="GIT" class="reference-link"></a><span class="header-link octicon octicon-link"></span>GIT</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install git</span></code></li></ol></pre>
+<h2 id="h2-zip"><a name="zip" class="reference-link"></a><span class="header-link octicon octicon-link"></span>zip</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install zip</span></code></li></ol></pre>
+<h2 id="h2-composer"><a name="COMPOSER" class="reference-link"></a><span class="header-link octicon octicon-link"></span>COMPOSER</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo apt install curl</span></code></li><li class="L1"><code class="lang-shell"></code></li><li class="L2"><code class="lang-shell"><span class="pln">sudo apt install composer</span></code></li><li class="L3"><code class="lang-shell"></code></li><li class="L4"><code class="lang-shell"><span class="pln">curl </span><span class="pun">-</span><span class="pln">sS https</span><span class="pun">:</span><span class="com">//getcomposer.org/installer | php</span></code></li><li class="L5"><code class="lang-shell"></code></li><li class="L6"><code class="lang-shell"><span class="pln">sudo mv composer</span><span class="pun">.</span><span class="pln">phar </span><span class="pun">/</span><span class="pln">usr</span><span class="pun">/</span><span class="kwd">local</span><span class="pun">/</span><span class="pln">bin</span><span class="pun">/</span><span class="pln">composer</span></code></li></ol></pre>
+<h2 id="h2-nodejs"><a name="NODEJS" class="reference-link"></a><span class="header-link octicon octicon-link"></span>NODEJS</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install python</span><span class="pun">-</span><span class="pln">software</span><span class="pun">-</span><span class="pln">properties</span></code></li><li class="L1"><code class="lang-shell"></code></li><li class="L2"><code class="lang-shell"><span class="pln">curl </span><span class="pun">-</span><span class="pln">sL https</span><span class="pun">:</span><span class="com">//deb.nodesource.com/setup_8.x | sudo -E bash -</span></code></li><li class="L3"><code class="lang-shell"></code></li><li class="L4"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install nodejs</span></code></li></ol></pre>
+<h2 id="h2-mongodb"><a name="MONGODB" class="reference-link"></a><span class="header-link octicon octicon-link"></span>MONGODB</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="pln">key adv </span><span class="pun">--</span><span class="pln">keyserver hkp</span><span class="pun">:</span><span class="com">//keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5</span></code></li><li class="L1"><code class="lang-shell"></code></li><li class="L2"><code class="lang-shell"><span class="pln">echo </span><span class="str">"deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse"</span><span class="pln"> </span><span class="pun">|</span><span class="pln"> sudo tee </span><span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">apt</span><span class="pun">/</span><span class="pln">sources</span><span class="pun">.</span><span class="pln">list</span><span class="pun">.</span><span class="pln">d</span><span class="pun">/</span><span class="pln">mongodb</span><span class="pun">-</span><span class="pln">org</span><span class="pun">-</span><span class="lit">3.6</span><span class="pun">.</span><span class="pln">list</span></code></li><li class="L3"><code class="lang-shell"></code></li><li class="L4"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> update</span></code></li><li class="L5"><code class="lang-shell"></code></li><li class="L6"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install </span><span class="pun">-</span><span class="pln">y mongodb</span><span class="pun">-</span><span class="pln">org</span></code></li><li class="L7"><code class="lang-shell"></code></li><li class="L8"><code class="lang-shell"><span class="pln">sudo service mongod start</span></code></li><li class="L9"><code class="lang-shell"></code></li><li class="L0"><code class="lang-shell"><span class="pln">sudo service mongodb start</span></code></li><li class="L1"><code class="lang-shell"></code></li><li class="L2"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install php</span><span class="pun">-</span><span class="pln">dev</span></code></li><li class="L3"><code class="lang-shell"></code></li><li class="L4"><code class="lang-shell"><span class="pln">sudo pecl install memcache</span></code></li><li class="L5"><code class="lang-shell"></code></li><li class="L6"><code class="lang-shell"><span class="pln">sudo pecl install mongodb</span></code></li><li class="L7"><code class="lang-shell"></code></li><li class="L8"><code class="lang-shell"><span class="typ">Add</span><span class="pln"> mongodb</span><span class="pun">.</span><span class="pln">so to php</span><span class="pun">.</span><span class="pln">ini</span></code></li><li class="L9"><code class="lang-shell"></code></li><li class="L0"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install php</span><span class="pun">-</span><span class="pln">mongodb</span></code></li></ol></pre>
+<p><a href="https://nosqlbooster.com/downloads">https://nosqlbooster.com/downloads</a></p>
+<h2 id="h2-redis"><a name="REDIS" class="reference-link"></a><span class="header-link octicon octicon-link"></span>REDIS</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo add</span><span class="pun">-</span><span class="pln">apt</span><span class="pun">-</span><span class="pln">repository ppa</span><span class="pun">:</span><span class="pln">chris</span><span class="pun">-</span><span class="pln">lea</span><span class="pun">/</span><span class="pln">redis</span><span class="pun">-</span><span class="pln">server</span></code></li><li class="L1"><code class="lang-shell"></code></li><li class="L2"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> update</span></code></li><li class="L3"><code class="lang-shell"></code></li><li class="L4"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install redis</span><span class="pun">-</span><span class="pln">server</span></code></li><li class="L5"><code class="lang-shell"></code></li><li class="L6"><code class="lang-shell"><span class="pln">sudo service redis</span><span class="pun">-</span><span class="pln">server start</span></code></li></ol></pre>
+<h5 id="h5-laravel-redis-gt-"><a name="Laravel Redis ==>" class="reference-link"></a><span class="header-link octicon octicon-link"></span>Laravel Redis ==&gt;</h5><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln"> composer </span><span class="kwd">require</span><span class="pln"> predis</span><span class="pun">/</span><span class="pln">predis</span></code></li></ol></pre>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-rst"><span class="pln">CACHE_DRIVER</span><span class="pun">=</span><span class="pln">redis</span></code></li><li class="L1"><code class="lang-rst"></code></li><li class="L2"><code class="lang-rst"><span class="pln">SESSION_DRIVER</span><span class="pun">=</span><span class="pln">redis</span></code></li><li class="L3"><code class="lang-rst"></code></li><li class="L4"><code class="lang-rst"><span class="pln">CACHE_DRIVER</span><span class="pun">=</span><span class="pln">file</span></code></li><li class="L5"><code class="lang-rst"></code></li><li class="L6"><code class="lang-rst"><span class="pln">SESSION_DRIVER</span><span class="pun">=</span><span class="pln">file</span></code></li><li class="L7"><code class="lang-rst"></code></li><li class="L8"><code class="lang-rst"><span class="pln">QUEUE_DRIVER</span><span class="pun">=</span><span class="pln">sync</span></code></li><li class="L9"><code class="lang-rst"></code></li><li class="L0"><code class="lang-rst"><span class="pln">REDIS_HOST</span><span class="pun">=</span><span class="lit">127.0</span><span class="pun">.</span><span class="lit">0.1</span></code></li><li class="L1"><code class="lang-rst"></code></li><li class="L2"><code class="lang-rst"><span class="pln">REDIS_PASSWORD</span><span class="pun">=</span><span class="kwd">null</span></code></li><li class="L3"><code class="lang-rst"></code></li><li class="L4"><code class="lang-rst"><span class="pln">REDIS_PORT</span><span class="pun">=</span><span class="lit">6379</span></code></li></ol></pre>
+<h2 id="h2-redis-manager"><a name="REDIS Manager" class="reference-link"></a><span class="header-link octicon octicon-link"></span>REDIS Manager</h2><p><a href="https://github.com/uglide/RedisDesktopManager/releases">https://github.com/uglide/RedisDesktopManager/releases</a></p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install gdebi</span></code></li></ol></pre>
+<h2 id="h2-bower"><a name="BOWER" class="reference-link"></a><span class="header-link octicon octicon-link"></span>BOWER</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo npm install bower </span><span class="pun">-</span><span class="pln">g</span></code></li></ol></pre>
+<h2 id="h2-wine"><a name="WINE" class="reference-link"></a><span class="header-link octicon octicon-link"></span>WINE</h2><ul>
+<li>If your system is 64 bit, enable 32 bit architecture!</li></ul>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo dpkg </span><span class="pun">--</span><span class="pln">add</span><span class="pun">-</span><span class="pln">architecture i386</span></code></li></ol></pre>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">wget </span><span class="pun">-</span><span class="pln">nc https</span><span class="pun">:</span><span class="com">//dl.winehq.org/wine-builds/Release.key</span></code></li><li class="L1"><code class="lang-shell"></code></li><li class="L2"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="pln">key add </span><span class="typ">Release</span><span class="pun">.</span><span class="pln">key</span></code></li><li class="L3"><code class="lang-shell"></code></li><li class="L4"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="pln">add</span><span class="pun">-</span><span class="pln">repository </span><span class="str">'deb http://dl.winehq.org/wine-builds/ubuntu/ xenial main'</span></code></li><li class="L5"><code class="lang-shell"></code></li><li class="L6"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> update</span></code></li><li class="L7"><code class="lang-shell"></code></li><li class="L8"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install </span><span class="pun">--</span><span class="pln">install</span><span class="pun">-</span><span class="pln">recommends winehq</span><span class="pun">-</span><span class="pln">devel</span></code></li><li class="L9"><code class="lang-shell"></code></li><li class="L0"><code class="lang-shell"><span class="pln">winecfg</span></code></li></ol></pre>
+<h2 id="h2-rar"><a name="RAR" class="reference-link"></a><span class="header-link octicon octicon-link"></span>RAR</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install unrar</span></code></li></ol></pre>
+<h2 id="h2-angularjs"><a name="Angularjs" class="reference-link"></a><span class="header-link octicon octicon-link"></span>Angularjs</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">npm config </span><span class="kwd">set</span><span class="pln"> </span><span class="kwd">unsafe</span><span class="pun">-</span><span class="pln">perm </span><span class="kwd">true</span></code></li><li class="L1"><code class="lang-shell"></code></li><li class="L2"><code class="lang-shell"><span class="pln">sudo npm install </span><span class="pun">-</span><span class="pln">g </span><span class="lit">@angular</span><span class="pun">/</span><span class="pln">cli</span></code></li><li class="L3"><code class="lang-shell"></code></li><li class="L4"><code class="lang-shell"><span class="pln">ng </span><span class="kwd">new</span><span class="pln"> </span><span class="kwd">my</span><span class="pun">-</span><span class="pln">project</span><span class="pun">-</span><span class="pln">name</span></code></li></ol></pre>
+<p><a href="https://github.com/angular/angular-cli/wiki">https://github.com/angular/angular-cli/wiki</a></p>
+<h2 id="h2-monitor"><a name="Monitor" class="reference-link"></a><span class="header-link octicon octicon-link"></span>Monitor</h2><h2 id="h2-gnome-system-monitor"><a name="gnome-system-monitor" class="reference-link"></a><span class="header-link octicon octicon-link"></span>gnome-system-monitor</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install gnome</span><span class="pun">-</span><span class="pln">system</span><span class="pun">-</span><span class="pln">monitor</span></code></li><li class="L1"><code class="lang-shell"></code></li><li class="L2"><code class="lang-shell"><span class="pln">gnome</span><span class="pun">-</span><span class="pln">system</span><span class="pun">-</span><span class="pln">monitor</span></code></li></ol></pre>
+<h2 id="h2-docker"><a name="Docker" class="reference-link"></a><span class="header-link octicon octicon-link"></span>Docker</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"></code></li><li class="L1"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> update</span></code></li><li class="L2"><code class="lang-shell"></code></li><li class="L3"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install apt</span><span class="pun">-</span><span class="pln">transport</span><span class="pun">-</span><span class="pln">https ca</span><span class="pun">-</span><span class="pln">certificates  curl  software</span><span class="pun">-</span><span class="pln">properties</span><span class="pun">-</span><span class="pln">common</span></code></li><li class="L4"><code class="lang-shell"></code></li><li class="L5"><code class="lang-shell"><span class="pln">curl </span><span class="pun">-</span><span class="pln">fsSL https</span><span class="pun">:</span><span class="com">//download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span></code></li><li class="L6"><code class="lang-shell"></code></li><li class="L7"><code class="lang-shell"><span class="pln">sudo add</span><span class="pun">-</span><span class="pln">apt</span><span class="pun">-</span><span class="pln">repository </span><span class="str">"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs)  stable"</span></code></li><li class="L8"><code class="lang-shell"></code></li><li class="L9"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> update</span></code></li><li class="L0"><code class="lang-shell"></code></li><li class="L1"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install docker</span><span class="pun">-</span><span class="pln">ce</span></code></li><li class="L2"><code class="lang-shell"></code></li><li class="L3"><code class="lang-shell"><span class="pln">sudo apt install docker</span><span class="pun">-</span><span class="pln">compose</span></code></li><li class="L4"><code class="lang-shell"></code></li><li class="L5"><code class="lang-shell"><span class="pln">sudo usermod </span><span class="pun">-</span><span class="pln">aG docker engshokry</span></code></li><li class="L6"><code class="lang-shell"></code></li><li class="L7"><code class="lang-shell"><span class="pln">sudo chmod </span><span class="pun">-</span><span class="pln">R </span><span class="lit">777</span><span class="pln"> </span><span class="pun">/</span><span class="kwd">var</span><span class="pun">/</span><span class="pln">lib</span><span class="pun">/</span><span class="pln">docker</span><span class="pun">/</span></code></li><li class="L8"><code class="lang-shell"></code></li><li class="L9"><code class="lang-shell"><span class="pln">sudo mkdir </span><span class="pun">/</span><span class="kwd">var</span><span class="pun">/</span><span class="pln">lib</span><span class="pun">/</span><span class="pln">docker</span><span class="pun">/</span><span class="pln">tmp    </span><span class="pun">==&gt;</span><span class="pln"> </span><span class="kwd">if</span><span class="pln"> </span><span class="kwd">not</span><span class="pln"> create</span></code></li><li class="L0"><code class="lang-shell"></code></li><li class="L1"><code class="lang-shell"><span class="pln">sudo systemctl start docker</span></code></li></ol></pre>
+<h2 id="h2-switch-php"><a name="SWITCH PHP" class="reference-link"></a><span class="header-link octicon octicon-link"></span>SWITCH PHP</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo a2dismod php7</span><span class="pun">.</span><span class="lit">0</span><span class="pln"> </span><span class="pun">&amp;&amp;</span><span class="pln"> sudo a2enmod php5</span><span class="pun">.</span><span class="lit">6</span><span class="pln"> </span><span class="pun">&amp;&amp;</span><span class="pln"> sudo service apache2 restart</span></code></li><li class="L1"><code class="lang-shell"></code></li><li class="L2"><code class="lang-shell"><span class="pln">sudo ln </span><span class="pun">-</span><span class="pln">sfn </span><span class="pun">/</span><span class="pln">usr</span><span class="pun">/</span><span class="pln">bin</span><span class="pun">/</span><span class="pln">php5</span><span class="pun">.</span><span class="lit">6</span><span class="pln"> </span><span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">alternatives</span><span class="pun">/</span><span class="pln">php</span></code></li></ol></pre>
+<h2 id="h2-gdebi"><a name="Gdebi" class="reference-link"></a><span class="header-link octicon octicon-link"></span>Gdebi</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo apt install gdebi</span></code></li></ol></pre>
+<h2 id="h2-sendmail"><a name="Sendmail" class="reference-link"></a><span class="header-link octicon octicon-link"></span>Sendmail</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo apt install sendmail</span></code></li></ol></pre>
+<p>which sendmail</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo gedit </span><span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">ssmtp</span><span class="pun">/</span><span class="pln">ssmtp</span><span class="pun">.</span><span class="pln">conf</span></code></li></ol></pre>
+<h2 id="h2-config-sendmail"><a name="Config Sendmail" class="reference-link"></a><span class="header-link octicon octicon-link"></span>Config Sendmail</h2><p>mailhub=smtp.gmail.com:587 ######YES 465 NO 587</p>
+<p>rewriteDomain=gmail.com</p>
+<p>AuthUser=<a href="mailto:sms.shokry.mohamed@gmail.com">sms.shokry.mohamed@gmail.com</a></p>
+<p>AuthPass=password</p>
+<p>UseSTARTTLS=YES</p>
+<h6 id="h6-fromlineoverride-yes"><a name="FromLineOverride=YES" class="reference-link"></a><span class="header-link octicon octicon-link"></span>FromLineOverride=YES</h6><h6 id="h6-usetls-yes-yes-465"><a name="UseTLS=YES # YES 465" class="reference-link"></a><span class="header-link octicon octicon-link"></span>UseTLS=YES # YES 465</h6><h2 id="h2-keyboard"><a name="Keyboard" class="reference-link"></a><span class="header-link octicon octicon-link"></span>Keyboard</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install gnome</span><span class="pun">-</span><span class="pln">tweaks</span></code></li></ol></pre>
+<p>Then Open Gnome Tweaks (Gnome-Tweaks).</p>
+<p>Select Keyboard &amp; Mouse Tab</p>
+<p>Click Additional Layout Options Button</p>
+<p>Expand Switching To Another Layout</p>
+<p>Select Ctrl + Shift Here</p>
+<p>See Screenshot Below:</p>
+<p><a href="https://i.stack.imgur.com/6eUtV.png">https://i.stack.imgur.com/6eUtV.png</a></p>
+<h2 id="h2-create-short-icon-to-your-program"><a name="create Short Icon to Your program" class="reference-link"></a><span class="header-link octicon octicon-link"></span>create Short Icon to Your program</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="typ">Installing</span><span class="pln"> gnome</span><span class="pun">-</span><span class="pln">panel</span></code></li><li class="L1"><code class="lang-shell"></code></li><li class="L2"><code class="lang-shell"><span class="pln"> sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install </span><span class="pun">--</span><span class="kwd">no</span><span class="pun">-</span><span class="pln">install</span><span class="pun">-</span><span class="pln">recommends gnome</span><span class="pun">-</span><span class="pln">panel</span></code></li></ol></pre>
+<p>To create launcher</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"><span class="pln">sudo gnome</span><span class="pun">-</span><span class="pln">desktop</span><span class="pun">-</span><span class="pln">item</span><span class="pun">-</span><span class="pln">edit </span><span class="pun">/</span><span class="pln">usr</span><span class="pun">/</span><span class="pln">share</span><span class="pun">/</span><span class="pln">applications</span><span class="pun">/</span><span class="pln"> </span><span class="pun">--</span><span class="pln">create</span><span class="pun">-</span><span class="kwd">new</span></code></li></ol></pre>
+<p>This will open up a “Create Launcher” window</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-rst"><span class="typ">Type</span><span class="pun">:</span><span class="pln"> </span><span class="typ">Application</span></code></li><li class="L1"><code class="lang-rst"></code></li><li class="L2"><code class="lang-rst"><span class="typ">Name</span><span class="pun">:</span><span class="pln"> </span><span class="typ">PhpStorm</span></code></li><li class="L3"><code class="lang-rst"></code></li><li class="L4"><code class="lang-rst"><span class="typ">Command</span><span class="pun">:</span><span class="pln"> </span><span class="str">/bin/</span><span class="pln">bash path_to</span><span class="pun">/</span><span class="pln">phpstorm</span><span class="pun">.</span><span class="pln">sh</span></code></li><li class="L5"><code class="lang-rst"></code></li><li class="L6"><code class="lang-rst"><span class="typ">Comment</span><span class="pun">:</span><span class="pln"> </span><span class="typ">Any</span><span class="pln"> </span><span class="typ">Comment</span></code></li></ol></pre>
+<p>This will create a launcher file in /usr/share/applications directory. Now double click and open the file.</p>
+</div>
