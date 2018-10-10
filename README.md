@@ -1,16 +1,22 @@
 #Errors
+
 ##Can't Install Any Thing
 
 ```shell
-$ sudo rm /var/lib/apt/lists/lock
+
+sudo rm /var/lib/apt/lists/lock
+
 sudo rm /var/cache/apt/archives/lock
+
 sudo rm /var/lib/dpkg/lock
+
 ```
 
 
 #INSTALL LAMP
 
 ### APACHE2
+
 ```shell
 sudo apt-get update
 sudo apt-get install apache2
@@ -51,6 +57,7 @@ CREATE USER 'phpmyadmin'@'localhost' IDENTIFIED BY 'root';
 GRANT ALL PRIVILEGES ON *.* TO 'phpmyadmin'@'localhost' WITH GRANT OPTION;
 SELECT user,authentication_string,plugin,host FROM mysql.user; #mysql
 sudo service mysql restart
+
 sudo cp /usr/share/phpmyadmin/libraries/sql.lib.php /usr/share/phpmyadmin/libraries/sql.lib.php.bak
 sudo gedit /usr/share/phpmyadmin/libraries/sql.lib.php
 exit
