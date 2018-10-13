@@ -1,143 +1,105 @@
-
-<!DOCTYPE html>
-<html lang="zh">
-    <head>
-        <meta charset="utf-8" />
-        <title>HTML Preview(markdown to html) - Editor.md examples</title>
-        <link rel="stylesheet" href="css/style.css" />
-        <link rel="stylesheet" href="../css/editormd.preview.css" />
-        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
-        <style>            
-            .editormd-html-preview {
-                width: 90%;
-                margin: 0 auto;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="layout">
-            <header>
-                <h1>Markdown转HTML的显示处理</h1> 
-                <p>即：非编辑情况下的HTML预览</p>
-                <p>HTML Preview(markdown to html)</p>       
-            </header>
-            <div class="btns">
-                <button onclick="location.href='./html-preview-markdown-to-html-custom-toc-container.html';">将 ToC 移到自定义容器层</button>
-            </div>
-            <div id="test-editormd-view">
-               <textarea style="display:none;" name="test-editormd-markdown-doc">###Hello world!</textarea>               
-            </div>
-            <div id="test-editormd-view2">
-                <textarea id="append-test" style="display:none;">
-
-###科学公式 TeX(KaTeX)
-                    
-$$E=mc^2$$
-
-行内的公式$$E=mc^2$$行内的公式，行内的$$E=mc^2$$公式。
-
-$$\(\sqrt{3x-1}+(1+x)^2\)$$
-                    
-$$\sin(\alpha)^{\theta}=\sum_{i=0}^{n}(x^i + \cos(f))$$
-
-$$X^2 > Y$$
-
-#####上标和下标
-
-上标：X&lt;sup&gt;2&lt;/sup&gt;
-
-下标：O&lt;sub&gt;2&lt;/sub&gt;
-
-##### 代码块里包含的过滤标签及属性不会被过滤
-
-```html
-&lt;style type="text/style"&gt;
-body{background:red;}
-&lt;/style&gt;
-
-&lt;script type="text/javscript"&gt;
-alert("script");
-&lt;/script&gt;
-
-&lt;iframe height=498 width=510 src="http://player.youku.com/embed/XMzA0MzIwMDgw" frameborder=0 allowfullscreen&gt;&lt;/iframe&gt;
-```
-
-#####Style
-
-&lt;style&gt;
-body{background:red;}
-&lt;/style&gt;
-
-&lt;style type="text/style"&gt;
-body{background:red;}
-&lt;/style&gt;
-
-#####Script
-
-&lt;script&gt;
-alert("script");
-&lt;/script&gt;
-
-&lt;script type="text/javscript"&gt;
-alert("script");
-&lt;/script&gt;</textarea>          
-            </div>
-        </div>
-        <!-- <script src="js/zepto.min.js"></script>
-		<script>		
-			var jQuery = Zepto;  // 为了避免修改flowChart.js和sequence-diagram.js的源码，所以使用Zepto.js时想支持flowChart/sequenceDiagram就得加上这一句
-		</script> -->
-        <script src="js/jquery.min.js"></script>
-        <script src="../lib/marked.min.js"></script>
-        <script src="../lib/prettify.min.js"></script>
-        
-        <script src="../lib/raphael.min.js"></script>
-        <script src="../lib/underscore.min.js"></script>
-        <script src="../lib/sequence-diagram.min.js"></script>
-        <script src="../lib/flowchart.min.js"></script>
-        <script src="../lib/jquery.flowchart.min.js"></script>
-
-        <script src="../editormd.js"></script>
-        <script type="text/javascript">
-            $(function() {
-                var testEditormdView, testEditormdView2;
-                
-                $.get("test.md", function(markdown) {
-                    
-				    testEditormdView = editormd.markdownToHTML("test-editormd-view", {
-                        markdown        : markdown ,//+ "\r\n" + $("#append-test").text(),
-                        //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
-                        htmlDecode      : "style,script,iframe",  // you can filter tags decode
-                        //toc             : false,
-                        tocm            : true,    // Using [TOCM]
-                        //tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
-                        //gfm             : false,
-                        //tocDropdown     : true,
-                        // markdownSourceCode : true, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
-                        emoji           : true,
-                        taskList        : true,
-                        tex             : true,  // 默认不解析
-                        flowChart       : true,  // 默认不解析
-                        sequenceDiagram : true,  // 默认不解析
-                    });
-                    
-                    //console.log("返回一个 jQuery 实例 =>", testEditormdView);
-                    
-                    // 获取Markdown源码
-                    //console.log(testEditormdView.getMarkdown());
-                    
-                    //alert(testEditormdView.getMarkdown());
-                });
-                    
-                testEditormdView2 = editormd.markdownToHTML("test-editormd-view2", {
-                    htmlDecode      : "style,script,iframe",  // you can filter tags decode
-                    emoji           : true,
-                    taskList        : true,
-                    tex             : true,  // 默认不解析
-                    flowChart       : true,  // 默认不解析
-                    sequenceDiagram : true,  // 默认不解析
-                });
-            });
-        </script>
-    </body>
-</html>
+<!-- #######  YAY, I AM THE SOURCE EDITOR! #########-->
+<h1 style="color: #5e9ca0;">You can edit <span style="color: #2b2301;">this demo</span> text!</h1>
+<h2 style="color: #2e6c80;">How to use the editor:</h2>
+<p>Paste your documents in the visual editor on the left or your HTML code in the source editor in the right. <br />Edit any of the two areas and see the other changing in real time.&nbsp;</p>
+<p>Click the <span style="background-color: #2b2301; color: #fff; display: inline-block; padding: 3px 10px; font-weight: bold; border-radius: 5px;">Clean</span> button to clean your source code.</p>
+<h2 style="color: #2e6c80;">Some useful features:</h2>
+<ol style="list-style: none; font-size: 14px; line-height: 32px; font-weight: bold;">
+<li style="clear: both;"><img style="float: left;" src="https://html-online.com/img/01-interactive-connection.png" alt="interactive connection" width="45" /> Interactive source editor</li>
+<li style="clear: both;"><img style="float: left;" src="https://html-online.com/img/02-html-clean.png" alt="html cleaner" width="45" /> HTML Cleaning</li>
+<li style="clear: both;"><img style="float: left;" src="https://html-online.com/img/03-docs-to-html.png" alt="Word to html" width="45" /> Word to HTML conversion</li>
+<li style="clear: both;"><img style="float: left;" src="https://html-online.com/img/04-replace.png" alt="replace text" width="45" /> Find and Replace</li>
+<li style="clear: both;"><img style="float: left;" src="https://html-online.com/img/05-gibberish.png" alt="gibberish" width="45" /> Lorem-Ipsum generator</li>
+<li style="clear: both;"><img style="float: left;" src="https://html-online.com/img/6-table-div-html.png" alt="html table div" width="45" /> Table to DIV conversion</li>
+</ol>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
+<h2 style="color: #2e6c80;">Cleaning options:</h2>
+<table class="editorDemoTable">
+<thead>
+<tr>
+<td>Name of the feature</td>
+<td>Example</td>
+<td>Default</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Remove tag attributes</td>
+<td><img style="margin: 1px 15px;" src="images/smiley.png" alt="laughing" width="40" height="16" /> (except <strong>img</strong>-<em>src</em> and <strong>a</strong>-<em>href</em>)</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Remove inline styles</td>
+<td><span style="color: green; font-size: 13px;">You <strong style="color: blue; text-decoration: underline;">should never</strong>&nbsp;use inline styles!</span></td>
+<td><strong style="font-size: 17px; color: #2b2301;">x</strong></td>
+</tr>
+<tr>
+<td>Remove classes and IDs</td>
+<td><span id="demoId">Use classes to <strong class="demoClass">style everything</strong>.</span></td>
+<td><strong style="font-size: 17px; color: #2b2301;">x</strong></td>
+</tr>
+<tr>
+<td>Remove all tags</td>
+<td>This leaves <strong style="color: blue;">only the plain</strong> <em>text</em>. <img style="margin: 1px;" src="images/smiley.png" alt="laughing" width="16" height="16" /></td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Remove successive &amp;nbsp;s</td>
+<td>Never use non-breaking spaces&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to set margins.</td>
+<td><strong style="font-size: 17px; color: #2b2301;">x</strong></td>
+</tr>
+<tr>
+<td>Remove empty tags</td>
+<td>Empty tags should go!</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Remove tags with one &amp;nbsp;</td>
+<td>This makes&nbsp;no sense!</td>
+<td><strong style="font-size: 17px; color: #2b2301;">x</strong></td>
+</tr>
+<tr>
+<td>Remove span tags</td>
+<td>Span tags with <span style="color: green; font-size: 13px;">all styles</span></td>
+<td><strong style="font-size: 17px; color: #2b2301;">x</strong></td>
+</tr>
+<tr>
+<td>Remove images</td>
+<td>I am an image: <img src="images/smiley.png" alt="laughing" /></td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Remove links</td>
+<td><a href="https://html-online.com">This is</a> a link.</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Remove tables</td>
+<td>Takes everything out of the table.</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Replace table tags with structured divs</td>
+<td>This text is inside a table.</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Remove comments</td>
+<td>This is only visible in the source editor <!-- HELLO! --></td>
+<td><strong style="font-size: 17px; color: #2b2301;">x</strong></td>
+</tr>
+<tr>
+<td>Encode special characters</td>
+<td><span style="color: red; font-size: 17px;">&hearts;</span> <strong style="font-size: 20px;">&acirc;&tilde;&ordm; &acirc;&tilde;&hellip;</strong> &gt;&lt;</td>
+<td><strong style="font-size: 17px; color: #2b2301;">x</strong></td>
+</tr>
+<tr>
+<td>Set new lines and text indents</td>
+<td>Organize the tags in a nice tree view.</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p><strong>&nbsp;</strong></p>
+<p><strong>Save this link into your bookmarks and share it with your friends. It is all FREE! </strong><br /><strong>Enjoy!</strong></p>
+<p><strong>&nbsp;</strong></p>
