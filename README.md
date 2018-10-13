@@ -1,20 +1,13 @@
 <link rel="stylesheet" type="text/css" href="https://pandao.github.io/dist/css/planeui.min.css" />
 <link rel="stylesheet" type="text/css" href="https://pandao.github.io/editor.md/css/editormd.min.css" />
   
-        <script src="https://pandao.github.io/examples/js/jquery.min.js"></script>
+<script src="https://pandao.github.io/examples/js/jquery.min.js"></script>
 
-        <!--[if lt IE 9]>
-        <script type="text/javascript" src="https://pandao.github.io/dist/js/planeui.patch.ie8.min.js"></script>
-        <![endif]-->
 
-        <!--[if lt IE 10]>
-        <script type="text/javascript" src="https://pandao.github.io//dist/js/planeui.patch.ie9.min.js"></script>
-        <![endif]-->
-
-        <script type="text/javascript" src="https://pandao.github.io/dist/js/planeui.js"></script>
-        <script src="https://pandao.github.io/editormd.min.js"></script>   
-        <script src="https://pandao.github.io/languages/en.js"></script>
-        <script src="https://pandao.github.io/js/index-en.js"></script>
+<script type="text/javascript" src="https://pandao.github.io/dist/js/planeui.js"></script>
+<script src="https://pandao.github.io/editormd.min.js"></script>   
+<script src="https://pandao.github.io/languages/en.js"></script>
+<script src="https://pandao.github.io/js/index-en.js"></script>
 
 
 <div class="markdown-body editormd-preview-container" previewcontainer="true" style="padding: 20px;"><h1 id="h1-errors"><a name="Errors" class="reference-link"></a><span class="header-link octicon octicon-link"></span>Errors</h1><h2 id="h2-can-t-install-any-thing"><a name="Can’t Install Any Thing" class="reference-link"></a><span class="header-link octicon octicon-link"></span>Can’t Install Any Thing</h2><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-shell"></code></li><li class="L1"><code class="lang-shell"><span class="pln">sudo rm </span><span class="pun">/</span><span class="kwd">var</span><span class="pun">/</span><span class="pln">lib</span><span class="pun">/</span><span class="pln">apt</span><span class="pun">/</span><span class="pln">lists</span><span class="pun">/</span><span class="kwd">lock</span></code></li><li class="L2"><code class="lang-shell"></code></li><li class="L3"><code class="lang-shell"><span class="pln">sudo rm </span><span class="pun">/</span><span class="kwd">var</span><span class="pun">/</span><span class="pln">cache</span><span class="pun">/</span><span class="pln">apt</span><span class="pun">/</span><span class="pln">archives</span><span class="pun">/</span><span class="kwd">lock</span></code></li><li class="L4"><code class="lang-shell"></code></li><li class="L5"><code class="lang-shell"><span class="pln">sudo rm </span><span class="pun">/</span><span class="kwd">var</span><span class="pun">/</span><span class="pln">lib</span><span class="pun">/</span><span class="pln">dpkg</span><span class="pun">/</span><span class="kwd">lock</span></code></li></ol></pre>
